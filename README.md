@@ -64,7 +64,7 @@
                   }];
                 }
 
-//业务方法二：需要处理支付结果回调(9.0以前回调)
+                //业务方法二：需要处理支付结果回调(9.0以前回调)
                 - (BOOL)handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication withComplation:                              (TXP_PayComplation)complation{
                   if (complation) {
                       _complation = complation;
@@ -109,7 +109,7 @@
                  return self;
                 }
 
-//业务方法一：需要调用微信支付接口(唤醒微信支付)
+                //业务方法一：需要调用微信支付接口(唤醒微信支付)
                 -(void)payWithCharge:(TXP_Charge*)charge controller:(UIViewController*)controller scheme:(NSString*)scheme withComplation:              (TXP_PayComplation)complation{
                   _complation = complation;
                  NSString* timeStamp = [NSString stringWithFormat:@"%@",[charge.credential objectForKey:@"timestamp"]];
@@ -123,7 +123,7 @@
                     [WXApi sendReq:request];
                 }
 
-//业务方法二：需要处理支付结果回调(9.0以前回调)
+                //业务方法二：需要处理支付结果回调(9.0以前回调)
                 - (BOOL)handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication withComplation:              (TXP_PayComplation)complation{
                   if (complation) {
                      _complation = complation;
@@ -131,7 +131,7 @@
                  return [WXApi handleOpenURL:url delegate:self];
                 }
 
-//业务方法三：需要处理支付结果回调(9.0以后回调)
+                //业务方法三：需要处理支付结果回调(9.0以后回调)
                 - (BOOL)handleOpenURL:(NSURL *)url withComplation:(TXP_PayComplation)complation{
                  return [self handleOpenURL:url sourceApplication:nil withComplation:complation];
                 }
@@ -202,7 +202,7 @@
                   return YES;
                 }
 
-//业务方法三：需要处理支付结果回调(9.0以后回调)
+                //业务方法三：需要处理支付结果回调(9.0以后回调)
                 - (BOOL)handleOpenURL:(NSURL *)url withComplation:(TXP_PayComplation)complation{
     
                   return [self handleOpenURL:url sourceApplication:nil withComplation:complation];
@@ -226,7 +226,7 @@
                   return self;
                 }
 
-//注册支付渠道
+                //注册支付渠道
                 -(void)registerChannel{
 
                   _channelDic = @{PAY_UNIONPAY : [[TXP_UnionPay alloc] init],
@@ -235,7 +235,7 @@
                              };
                 }
 
-//处理支付
+                //处理支付
                 -(void)payWithCharge:(TXP_Charge*)charge controller:(UIViewController*)controller scheme:(NSString*)scheme withComplation:              (TXP_PayComplation)complation{
     
                   //验证Controller是否为空
