@@ -10,45 +10,45 @@
 ## 依赖库目录
 ![](http://img.blog.csdn.net/20171104092622191?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdGlhbnRpYW5pb3M=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
 ## 工厂模式
+### 1、代理统一抽象接口
+                #import <UIKit/UIKit.h>
+                #import "TXP_Charge.h"
+                #import "TXP_PayComplation.h"
+                //代理模式->目标接口：支付接口
+                @protocol TXP_IPay <NSObject>
 
-1、代理统一抽象接口
-#import <UIKit/UIKit.h>
-#import "TXP_Charge.h"
-#import "TXP_PayComplation.h"
-//代理模式->目标接口：支付接口
-@protocol TXP_IPay <NSObject>
+                -(void)payWithCharge:(TXP_Charge*)charge controller:(UIViewController*)controller scheme:(NSString*)scheme withComplation:              (TXP_PayComplation)complation;
 
--(void)payWithCharge:(TXP_Charge*)charge controller:(UIViewController*)controller scheme:(NSString*)scheme withComplation:(TXP_PayComplation)complation;
+                //业务方法二：需要处理支付结果回调(9.0以前回调)
+                - (BOOL)handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication withComplation:(TXP_PayComplation)complation;
 
-//业务方法二：需要处理支付结果回调(9.0以前回调)
-- (BOOL)handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication withComplation:(TXP_PayComplation)complation;
+                //业务方法三：需要处理支付结果回调(9.0以后回调)
+                - (BOOL)handleOpenURL:(NSURL *)url withComplation:(TXP_PayComplation)complation;
 
-//业务方法三：需要处理支付结果回调(9.0以后回调)
-- (BOOL)handleOpenURL:(NSURL *)url withComplation:(TXP_PayComplation)complation;
+                @end
 
-@end
-2、支付宝具体实现类（需要遵守自己TXP_IPay的抽象协议）
-@interface TXP_ALiPay ()
+### 2、支付宝具体实现类（需要遵守自己TXP_IPay的抽象协议）
+                @interface TXP_ALiPay ()
 
-@property (nonatomic) TXP_PayComplation complation;
+                @property (nonatomic) TXP_PayComplation complation;
 
-@end
-@implementation TXP_ALiPay
-- (instancetype)init{
-    self = [super init];
-    if (self) {
+                @end
+                @implementation TXP_ALiPay
+                - (instancetype)init{
+                   self = [super init];
+                  if (self) {
 
-    }
-    return self;
-}
+                  }
+                  return self;
+                }
 
-- (void)payWithCharge:(TXP_Charge*)charge controller:(UIViewController *)controller scheme:(NSString *)scheme withComplation:(TXP_PayComplation)complation{
+                - (void)payWithCharge:(TXP_Charge*)charge controller:(UIViewController *)controller scheme:(NSString *)scheme withComplation:(TXP_PayComplation)complation{
     
-    if (complation) {
-        _complation = complation;
-    }
+                  if (complation) {
+                   _complation = complation;
+                    }
 
-    [[AlipaySDK defaultService] payOrder:charge.orderNo fromScheme:scheme callback:^(NSDictionary *resultDic) {
+        [[AlipaySDK defaultService] payOrder:charge.orderNo fromScheme:scheme callback:^(NSDictionary *resultDic) {
         NSString * state = [NSString stringWithFormat:@"%@",resultDic[@"resultStatus"]];
         if ([state isEqualToString:@"9000"]) {
            _complation(STR_PAY_SUCCESS,nil);
