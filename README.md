@@ -1,15 +1,15 @@
 # TXPPayDemo
 集成（支付宝、微信、银联）支付封装<br>
-#开发环境<br>
+## 开发环境
 1、xcode 8以上<br>
 2、iOS 7.0以上<br>
-#支付SDK的集成<br>
-这里就不多说了，网上一大把教程
-#工程目录结构<br>
-
-#依赖库目录<br>
-
-#工厂模式
+## 支付SDK的集成
+        这里就不多说了，网上一大把教程
+## 工程目录结构
+![](http://img.blog.csdn.net/20171104092543547?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdGlhbnRpYW5pb3M=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+## 依赖库目录
+![](http://img.blog.csdn.net/20171104092622191?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdGlhbnRpYW5pb3M=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+## 工厂模式
 
 1、代理统一抽象接口
 #import <UIKit/UIKit.h>
