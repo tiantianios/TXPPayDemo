@@ -1,0 +1,25 @@
+//
+
+//  Created by TXP on 2017/5/24.
+//  Copyright © 2017年 Tz. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "TXP_PayComplation.h"
+#import "TXP_Charge.h"
+#import "TXP_Channel.h"
+
+
+@interface TXP_PayEngine : NSObject
+
++(instancetype)sharedEngine;
+
+-(void)payWithCharge:(TXP_Charge*)charge controller:(UIViewController*)controller scheme:(NSString*)scheme withComplation:(TXP_PayComplation)complation;
+
+//第二个：回调处理（9.0之前）
+- (BOOL)handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication withComplation:(TXP_PayComplation)complation;
+
+//第三个：回调处理（9.0之后）
+- (BOOL)handleOpenURL:(NSURL *)url withComplation:(TXP_PayComplation)complation;
+
+@end

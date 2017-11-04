@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
+#import "TXP_PayEngine.h"
 @interface AppDelegate ()
 
 @end
@@ -16,10 +16,20 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    
     // Override point for customization after application launch.
     return YES;
 }
 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+   
+    return [[TXP_PayEngine sharedEngine] handleOpenURL:url withComplation:nil];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [[TXP_PayEngine sharedEngine] handleOpenURL:url withComplation:nil];
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

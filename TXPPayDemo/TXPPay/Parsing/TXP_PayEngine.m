@@ -1,0 +1,81 @@
+//
+
+//  Created by TXP on 2017/5/24.
+//  Copyright © 2017年 Tz. All rights reserved.
+//
+
+#import "TXP_PayEngine.h"
+#import "TXP_UnionPay.h"
+#import "TXP_WxPay.h"
+#import "TXP_ALiPay.h"
+#import "TXP_PayErrorUtils.h"
+
+
+
+@interface TXP_PayEngine ()
+
+//存储支付渠道
+@property (nonatomic) NSDictionary* channelDic;
+@property (nonatomic) NSString* channel;
+
+@end
+
+@implementation TXP_PayEngine
+
++(instancetype)sharedEngine{
+    static TXP_PayEngine* payEngine;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        payEngine = [[self alloc] init];
+    });
+    return payEngine;
+}
+
+- (instancetype)init{
+    self = [super init];
+    if (self) {
+        [self registerChannel];
+    }
+    return self;
+}
+
+//注册支付渠道
+-(void)registerChannel{
+
+    _channelDic = @{PAY_UNIONPAY : [[TXP_UnionPay alloc] init],
+                    PAY_WXPAY : [[TXP_WxPay alloc] init],
+                    PAY_ALIPAY: [[TXP_ALiPay alloc]init]
+                    };
+}
+
+//处理支付
+-(void)payWithCharge:(TXP_Charge*)charge controller:(UIViewController*)controller scheme:(NSString*)scheme withComplation:(TXP_PayComplation)complation{
+    
+    //验证Controller是否为空
+    if (controller == nil) {
+        complation(nil,[TXP_PayErrorUtils create:TXP_PayErrorViewControllerIsNil]);
+        return;
+    }
+    
+    _channel = charge.channel;
+   
+    id<TXP_IPay> pay = [_channelDic objectForKey:charge.channel];
+    if (pay == nil) {
+        complation(nil,[TXP_PayErrorUtils create:TXP_PayErrorInvalidChannel]);
+        return;
+    }
+    
+    [pay payWithCharge:charge controller:controller scheme:scheme withComplation:complation];
+}
+
+//处理回调
+- (BOOL)handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication withComplation:(TXP_PayComplation)complation{
+    return [[_channelDic objectForKey:_channel] handleOpenURL:url sourceApplication:sourceApplication withComplation:complation];;
+}
+
+- (BOOL)handleOpenURL:(NSURL *)url withComplation:(TXP_PayComplation)complation{
+    return [[_channelDic objectForKey:_channel] handleOpenURL:url sourceApplication:nil withComplation:complation];
+}
+
+
+@end
