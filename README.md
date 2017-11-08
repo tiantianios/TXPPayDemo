@@ -1,4 +1,4 @@
-# TXPPayDemo
+# TXPPayDemo 若果对你有帮助，请给个星哦
 集成（支付宝、微信、银联）支付封装<br>
 ## 开发环境
 1、xcode 8以上<br>
